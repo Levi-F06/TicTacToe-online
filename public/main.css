@@ -1,0 +1,38 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#container {
+  display: flex;
+  flex-direction: column;
+}
+
+.gameRow {
+  display: flex;
+}
+
+.gameItem {
+  width: 150px;
+  height: 150px;
+  border: 2px solid grey;
+  font-size: 48px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.emptyItem:hover {
+  background-color: grey;
+  transition: all .2s;
+}
