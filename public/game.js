@@ -44,7 +44,14 @@ class Game {
     ) {
       return this.turn;
     }
-    return "";
+    for (const row of this.board) {
+      for (const item of row) {
+        if (item === "") {
+          return "";
+        }
+      }
+    }
+    return "draw";
   }
 
   draw() {
@@ -55,6 +62,9 @@ class Game {
       case ("O"):
         text = `${this.turn === "X" ? "O" : "X"
           } has won! Refresh browser to play again`;
+        break;
+      case ("draw"):
+        text = "No one won! Refresh browser to play again";
         break;
       default:
         text = `${this.turn}'s go!`;
