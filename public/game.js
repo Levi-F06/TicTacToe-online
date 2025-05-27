@@ -2,13 +2,15 @@ class Game {
   constructor() {
     this.board = Array.from({ length: 3 }, () => new Array(3).fill(""));
     this.container = document.querySelector("#container");
+    this.statusElement = document.querySelector("#status");
+    this.win = "";
     this.turn = Math.floor(Math.random() * 2) ? "X" : "O";
   }
 
   update(i, j) {
     this.board[i][j] = this.turn;
-    this.turn = this.turn == "X" ? "O" : "X";
     this.win = this.checkWin();
+    this.turn = this.turn == "X" ? "O" : "X";
     this.draw();
   }
 
@@ -16,7 +18,7 @@ class Game {
     // horizontal
     for (const row of this.board) {
       if (row[0] === row[1] && row[1] === row[2] && row[0] !== "") {
-        return true;
+        return this.turn;
       }
     }
     // vertical
@@ -25,7 +27,7 @@ class Game {
         this.board[0][i] === this.board[1][i] &&
         this.board[1][i] === this.board[2][i] && this.board[0][i] !== ""
       ) {
-        return true;
+        return this.turn;
       }
     }
     // fucking diagonal
@@ -34,20 +36,31 @@ class Game {
       this.board[0][0] === this.board[1][1] &&
       this.board[1][1] === this.board[2][2] && this.board[0][0] !== ""
     ) {
-      return true;
+      return this.turn;
     }
     if (
       this.board[0][2] === this.board[1][1] &&
       this.board[1][1] === this.board[2][0] && this.board[0][2] !== ""
     ) {
-      return true;
+      return this.turn;
     }
-    return false;
+    return "";
   }
 
   draw() {
-    this.container.innerHTML = `<h2>${this.win ? "GAME OVER" : this.turn + "'s go!"
-      }</h2>`;
+    let text;
+    switch (this.win) {
+      // had no idea you could double the cases cool asf
+      case ("X"):
+      case ("O"):
+        text = `${this.turn === "X" ? "O" : "X"
+          } has won! Refresh browser to play again`;
+        break;
+      default:
+        text = `${this.turn}'s go!`;
+    }
+    this.statusElement.textContent = text;
+    this.container.innerHTML = "";
     for (let i = 0; i < 3; i++) {
       const gameRow = document.createElement("div");
       gameRow.classList.add("gameRow");
